@@ -4,7 +4,7 @@ Welcome to my personal portfolio repository! This is the source code for my pers
 
 ## 🌐 Live Site
 
-You can visit the live version of my portfolio hosted on GitHub Pages here: **[https://cetreciii.github.io/portfolio/](https://cetreciii.github.io/portfolio/)**
+You can visit the live version of my portfolio hosted on GitHub Pages **[here](https://cetreciii.github.io/portfolio/)**!
 
 ## 🛠️ Built With
 

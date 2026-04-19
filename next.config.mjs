@@ -1,10 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'export',
-  basePath: '/Portfolio',
+  basePath: '/portfolio',
   reactStrictMode: true,
   env: {
-    NEXT_PUBLIC_BASE_PATH: '/Portfolio',
+    NEXT_PUBLIC_BASE_PATH: '/portfolio',
   },
   images: {
     loader: 'custom',
