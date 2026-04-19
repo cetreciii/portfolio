@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
+import { ZoomableImage } from "@/components/ZoomableImage";
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { projects, getProject } from "@/lib/projects";
@@ -103,7 +104,7 @@ function SectionBlock({ s, imgAlt }: { s: { heading?: string; quickRead?: string
               key={i}
               className="overflow-hidden rounded-[12px] border border-[rgba(0,0,0,0.08)] bg-canvas-warm shadow-card"
             >
-              <Image
+              <ZoomableImage
                 src={src}
                 alt={`${imgAlt} image ${i + 1}`}
                 width={700}
@@ -259,16 +260,17 @@ export default async function ProjectPage({
         </div>
 
         {project.descriptionImages && project.descriptionImages.length > 0 && (
-          <div className={`mt-10 grid gap-4 ${project.descriptionImages.length === 1 ? "" :
-              project.descriptionImages.length % 3 === 0 ? "grid-cols-2 sm:grid-cols-3" :
-                "sm:grid-cols-2"
-            }`}>
+          <div className={`mt-10 grid gap-4 ${
+            project.descriptionImages.length === 1 ? "max-w-sm mx-auto" : 
+            project.descriptionImages.length % 3 === 0 ? "grid-cols-2 sm:grid-cols-3" : 
+            "sm:grid-cols-2"
+          }`}>
             {project.descriptionImages.map((src, i) => (
               <div
                 key={i}
                 className="overflow-hidden rounded-[12px] border border-[rgba(0,0,0,0.08)] bg-canvas-warm shadow-card"
               >
-                <Image
+                <ZoomableImage
                   src={src}
                   alt={`${project.title} screenshot ${i + 1}`}
                   width={700}
