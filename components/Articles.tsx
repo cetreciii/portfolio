@@ -16,6 +16,14 @@ function SkeletonCard() {
   );
 }
 
+function formatCategory(cat: string): string {
+  return cat
+    .replace(/-/g, " ")
+    .replace(/\b\w/g, (c) => c.toUpperCase())
+    .replace(/\b2d\b/gi, "2D")
+    .replace(/\b3d\b/gi, "3D");
+}
+
 export function Articles() {
   const [articles, setArticles] = useState<MediumArticle[]>([]);
   const [loading, setLoading] = useState(true);
@@ -80,7 +88,7 @@ export function Articles() {
                             key={cat}
                             className="rounded-full bg-accent-soft px-2 py-0.5 text-[11px] font-medium text-accent-text"
                           >
-                            {cat}
+                            {formatCategory(cat)}
                           </span>
                         ))}
                       </div>
