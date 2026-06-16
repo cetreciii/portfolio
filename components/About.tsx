@@ -1,28 +1,27 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import { getMediumArticles } from "@/lib/medium";
 
 type GitHubProfile = {
-  avatar_url: string;
   followers: number;
   public_repos: number;
 };
 
-async function fetchGitHub(): Promise<GitHubProfile | null> {
-  try {
-    const res = await fetch("https://api.github.com/users/cetreciii", {
-      next: { revalidate: 3600 },
-    });
-    if (!res.ok) return null;
-    return res.json();
-  } catch {
-    return null;
-  }
-}
+export function About() {
+  const [github, setGithub] = useState<GitHubProfile | null>(null);
+  const [articleCount, setArticleCount] = useState<number | null>(null);
 
-export async function About() {
-  const [github, articles] = await Promise.all([
-    fetchGitHub(),
-    getMediumArticles("igor.tarantino", 100),
-  ]);
+  useEffect(() => {
+    fetch("https://api.github.com/users/cetreciii")
+      .then((r) => r.ok ? r.json() : null)
+      .then((data) => setGithub(data))
+      .catch(() => {});
+
+    getMediumArticles("igor.tarantino")
+      .then((articles) => setArticleCount(articles.length))
+      .catch(() => {});
+  }, []);
 
   return (
     <section id="about" className="bg-canvas-warm py-28">
@@ -73,11 +72,11 @@ export async function About() {
             </div>
             <div>
               <p className="text-[13px] font-semibold text-ink">GitHub</p>
-              {github && (
-                <p className="mt-0.5 text-[12px] text-ink-mute">
-                  {github.followers} followers · {github.public_repos} repos
-                </p>
-              )}
+              <p className="mt-0.5 text-[12px] text-ink-mute">
+                {github
+                  ? `${github.followers} followers · ${github.public_repos} repos`
+                  : "cetreciii"}
+              </p>
             </div>
           </a>
 
@@ -120,7 +119,7 @@ export async function About() {
             <div>
               <p className="text-[13px] font-semibold text-ink">Medium</p>
               <p className="mt-0.5 text-[12px] text-ink-mute">
-                {articles.length > 0 ? `${articles.length} articles` : "Read my articles"}
+                {articleCount !== null ? `${articleCount} articles` : "Read my articles"}
               </p>
             </div>
           </a>

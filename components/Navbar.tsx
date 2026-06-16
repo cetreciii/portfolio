@@ -6,10 +6,13 @@ export function Navbar() {
       <nav className="mx-auto flex max-w-[1200px] items-center justify-between px-6 py-4">
         <Link
           href="/"
-          className="flex items-center gap-2 text-[15px] font-semibold tracking-tight text-ink"
+          className="flex items-center gap-2"
         >
-          <span className="inline-block size-6 rounded-md bg-gradient-to-br from-[#E5271C] to-[#F04A40]" />
-          Igor Tarantino
+          <span className="inline-block size-6 rounded-md bg-gradient-to-br from-[#E5271C] to-[#F04A40] shrink-0" />
+          <div className="flex flex-col">
+            <span className="text-[15px] font-semibold tracking-tight text-ink leading-tight">Igor Tarantino</span>
+            <span className="text-[10px] text-ink-mute leading-tight">iOS & visionOS Developer · Indie builder</span>
+          </div>
         </Link>
         <div className="flex items-center gap-2 sm:gap-6 text-[15px] font-medium text-[rgba(0,0,0,0.7)]">
           <a

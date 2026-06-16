@@ -36,9 +36,7 @@ export function Hero() {
           transition={{ duration: 0.7, ease, delay: 0.12 }}
           className="lead mt-7 max-w-2xl"
         >
-          I'm Igor and I like building things and learn while I do it.
-          <br />
-          It's that simple!
+          I'm Igor! I like building things from scratch to shipped products, learn while I do it and then give back to the community by sharing my learnings!
         </motion.p>
 
         <motion.div
