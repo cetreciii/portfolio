@@ -49,7 +49,7 @@ export function Articles() {
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {loading
             ? Array.from({ length: 3 }).map((_, i) => <SkeletonCard key={i} />)
-            : articles.map(({ title, link, thumbnail, pubDate }) => (
+            : articles.map(({ title, link, thumbnail, pubDate, categories }) => (
                 <a
                   key={link}
                   href={link}
@@ -66,13 +66,25 @@ export function Articles() {
                       />
                     </div>
                   )}
-                  <div className="flex flex-col gap-1 p-4">
+                  <div className="flex flex-col gap-2 p-4">
                     <span className="text-[11px] font-semibold uppercase tracking-widest text-accent-text">
                       Medium · {pubDate}
                     </span>
                     <span className="text-[14px] font-medium leading-snug text-ink group-hover:underline">
                       {title}
                     </span>
+                    {categories.length > 0 && (
+                      <div className="flex flex-wrap gap-1.5 mt-1">
+                        {categories.map((cat) => (
+                          <span
+                            key={cat}
+                            className="rounded-full bg-accent-soft px-2 py-0.5 text-[11px] font-medium text-accent-text"
+                          >
+                            {cat}
+                          </span>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 </a>
               ))}

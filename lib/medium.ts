@@ -3,6 +3,7 @@ export type MediumArticle = {
   link: string;
   thumbnail: string | null;
   pubDate: string;
+  categories: string[];
 };
 
 function extractFirstImage(html: string): string | null {
@@ -26,5 +27,6 @@ export async function getMediumArticles(username: string): Promise<MediumArticle
       month: "short",
       day: "numeric",
     }),
+    categories: Array.isArray(item.categories) ? item.categories.slice(0, 3) : [],
   }));
 }
