@@ -1,9 +1,33 @@
-import { getMediumArticles } from "@/lib/medium";
+"use client";
 
-export async function Articles() {
-  const articles = await getMediumArticles("igor.tarantino");
+import { useEffect, useState } from "react";
+import { getMediumArticles, MediumArticle } from "@/lib/medium";
 
-  if (articles.length === 0) return null;
+function SkeletonCard() {
+  return (
+    <div className="flex flex-col rounded-xl border border-[rgba(0,0,0,0.08)] bg-white overflow-hidden shadow-sm animate-pulse">
+      <div className="w-full h-40 bg-gray-200" />
+      <div className="flex flex-col gap-2 p-4">
+        <div className="h-3 w-24 rounded bg-gray-200" />
+        <div className="h-4 w-full rounded bg-gray-200" />
+        <div className="h-4 w-3/4 rounded bg-gray-200" />
+      </div>
+    </div>
+  );
+}
+
+export function Articles() {
+  const [articles, setArticles] = useState<MediumArticle[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    getMediumArticles("igor.tarantino").then((data) => {
+      setArticles(data);
+      setLoading(false);
+    });
+  }, []);
+
+  if (!loading && articles.length === 0) return null;
 
   return (
     <section id="articles" className="bg-canvas-warm py-24 md:py-32">
@@ -19,35 +43,37 @@ export async function Articles() {
             </p>
           </div>
           <div className="hidden text-[13px] font-medium text-ink-mute md:block">
-            {articles.length} articles
+            {loading ? "—" : `${articles.length} articles`}
           </div>
         </div>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {articles.map(({ title, link, thumbnail, pubDate }) => (
-            <a
-              key={link}
-              href={link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group flex flex-col rounded-xl border border-[rgba(0,0,0,0.08)] bg-white overflow-hidden shadow-sm transition hover:shadow-md hover:border-[rgba(0,0,0,0.15)]"
-            >
-              {thumbnail && (
-                <img
-                  src={thumbnail}
-                  alt={title}
-                  className="w-full h-40 object-cover"
-                />
-              )}
-              <div className="flex flex-col gap-1 p-4">
-                <span className="text-[11px] font-semibold uppercase tracking-widest text-accent-text">
-                  Medium · {pubDate}
-                </span>
-                <span className="text-[14px] font-medium leading-snug text-ink group-hover:underline">
-                  {title}
-                </span>
-              </div>
-            </a>
-          ))}
+          {loading
+            ? Array.from({ length: 3 }).map((_, i) => <SkeletonCard key={i} />)
+            : articles.map(({ title, link, thumbnail, pubDate }) => (
+                <a
+                  key={link}
+                  href={link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex flex-col rounded-xl border border-[rgba(0,0,0,0.08)] bg-white overflow-hidden shadow-sm transition hover:shadow-md hover:border-[rgba(0,0,0,0.15)]"
+                >
+                  {thumbnail && (
+                    <img
+                      src={thumbnail}
+                      alt={title}
+                      className="w-full h-40 object-cover"
+                    />
+                  )}
+                  <div className="flex flex-col gap-1 p-4">
+                    <span className="text-[11px] font-semibold uppercase tracking-widest text-accent-text">
+                      Medium · {pubDate}
+                    </span>
+                    <span className="text-[14px] font-medium leading-snug text-ink group-hover:underline">
+                      {title}
+                    </span>
+                  </div>
+                </a>
+              ))}
         </div>
       </div>
     </section>

@@ -11,9 +11,7 @@ function extractFirstImage(html: string): string | null {
 }
 
 export async function getMediumArticles(username: string, limit = 5): Promise<MediumArticle[]> {
-  const res = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=https://medium.com/feed/@${username}`, {
-    next: { revalidate: 3600 },
-  });
+  const res = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=https://medium.com/feed/@${username}`);
 
   if (!res.ok) return [];
 
