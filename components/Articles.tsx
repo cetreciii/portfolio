@@ -58,11 +58,13 @@ export function Articles() {
                   className="group flex flex-col rounded-xl border border-[rgba(0,0,0,0.08)] bg-white overflow-hidden shadow-sm transition hover:shadow-md hover:border-[rgba(0,0,0,0.15)]"
                 >
                   {thumbnail && (
-                    <img
-                      src={thumbnail}
-                      alt={title}
-                      className="w-full h-40 object-cover"
-                    />
+                    <div className="h-40 w-full overflow-hidden shrink-0">
+                      <img
+                        src={thumbnail}
+                        alt={title}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
                   )}
                   <div className="flex flex-col gap-1 p-4">
                     <span className="text-[11px] font-semibold uppercase tracking-widest text-accent-text">
