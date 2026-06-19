@@ -47,7 +47,7 @@ export function Articles() {
             </span>
             <h2 className="display-48 mt-4 text-ink">Things I've <span className="text-accent">written</span></h2>
             <p className="lead mt-4">
-              And here you can find some articles where I share what I learn when building stuff. Check them out!
+              Every project teaches me something. I write about it so others don't have to figure it out alone — tutorials, reflections, and things I wish I'd known before I started building.
             </p>
           </div>
           <div className="hidden text-[13px] font-medium text-ink-mute md:block">
