@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 const GITHUB_USERNAME = "cetreciii";
 
-const EXCLUDED_REPOS = ["DICOMViewer", "aHire", "cetreciii.github.io", "DICOMViewerVisionOS2", "Liquid", "Detective_Dino", "Gennit", "portfolio", "Route66"];
+const EXCLUDED_REPOS = ["DICOMViewer", "aHire", "cetreciii.github.io", "DICOMViewerVisionOS2", "Liquid", "Detective_Dino", "Gennit", "portfolio", "Route66", "cetreciii"];
 
 type Repo = {
   id: number;
