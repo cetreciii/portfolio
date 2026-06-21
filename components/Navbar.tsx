@@ -33,7 +33,7 @@ export function Navbar() {
           className="flex items-center gap-2"
           onClick={() => setIsOpen(false)}
         >
-          <span className="inline-block size-6 rounded-md bg-gradient-to-br from-[#E5271C] to-[#F04A40] shrink-0" />
+          <span className="inline-block size-6 rounded-md bg-gradient-to-br from-[#E1351A] to-[#F04535] shrink-0" />
           <div className="flex flex-col">
             <span className="text-[15px] font-semibold tracking-tight text-ink leading-tight">Igor Tarantino</span>
             <span className="text-[10px] text-ink-mute leading-tight">iOS & visionOS Developer · Indie builder</span>

@@ -8,10 +8,10 @@
   --color-canvas-warm: #f6f5f4;
   --color-border-whisper: rgba(0, 0, 0, 0.1);
   --color-border-hair: rgba(0, 0, 0, 0.06);
-  --color-accent: #E5271C;
-  --color-accent-dark: #BD1F15;
+  --color-accent: #E1351A;
+  --color-accent-dark: #BB2C16;
   --color-accent-soft: #FDE8E5;
-  --color-accent-text: #E5271C;
+  --color-accent-text: #E1351A;
 
   --font-sans: var(--font-inter), "Inter", -apple-system, system-ui, "Segoe UI",
     Helvetica, Arial, sans-serif;
