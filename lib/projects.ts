@@ -46,6 +46,7 @@ But Whoooshh is not only drawing on blank canvas! You can download the iOS versi
     keywords: ["Multipeer Connectivity", "SharePlay", "Multi-platform"],
     icon: "/projects/whoooshh/App_Icon_visionOS_Glass.png",
     coverImage: "/projects/whoooshh/Banner.png",
+    moreInfoLink: "https://app.notion.com/p/igor-tarantino/Whoooshh-34715dcee2b88050a729cf24bf627fbf",
     sections: [
       {
         body: `This is my second app where I wanted to implement the word "multi" two times!
