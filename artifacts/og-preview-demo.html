@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OG Preview Demo</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --accent: #E5271C;
+      --ink: #111;
+      --ink-soft: rgba(0,0,0,0.55);
+      --ink-mute: rgba(0,0,0,0.35);
+      --canvas: #fff;
+      --warm: #f5f5f5;
+      --radius: 14px;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: #f0f0f0;
+      min-height: 100vh;
+      padding: 40px 24px 80px;
+      color: var(--ink);
+    }
+
+    .page-title {
+      max-width: 780px;
+      margin: 0 auto 40px;
+    }
+    .page-title h1 {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    .page-title p {
+      margin-top: 6px;
+      font-size: 14px;
+      color: var(--ink-soft);
+      line-height: 1.6;
+      max-width: 560px;
+    }
+
+    /* ── Explanation box ── */
+    .explainer {
+      max-width: 780px;
+      margin: 0 auto 48px;
+      background: white;
+      border-radius: var(--radius);
+      border: 1px solid rgba(0,0,0,0.09);
+      padding: 24px 28px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+    .explainer-col h3 {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--ink-mute);
+      margin-bottom: 10px;
+    }
+    .piece {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .piece-icon {
+      flex-shrink: 0;
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+    }
+    .piece-icon.red { background: #fdeaea; }
+    .piece-icon.blue { background: #eff6ff; }
+    .piece-text strong { font-size: 14px; display: block; }
+    .piece-text span { font-size: 13px; color: var(--ink-soft); line-height: 1.5; }
+
+    @media (max-width: 580px) {
+      .explainer { grid-template-columns: 1fr; }
+    }
+
+    /* ── Platform section ── */
+    .platform-section {
+      max-width: 780px;
+      margin: 0 auto 40px;
+    }
+    .platform-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-mute);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap-8px;
+    }
+
+    /* ── Platform chrome ── */
+    .platform-chrome {
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.14);
+    }
+
+    /* ── LinkedIn ── */
+    .linkedin-chrome {
+      background: #f3f2ef;
+    }
+    .linkedin-topbar {
+      background: white;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-bottom: 1px solid rgba(0,0,0,0.1);
+    }
+    .linkedin-logo {
+      width: 28px;
+      height: 28px;
+      background: #0a66c2;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .linkedin-logo svg { width: 18px; height: 18px; }
+    .linkedin-topbar-text { font-size: 13px; color: #0a66c2; font-weight: 600; }
+
+    .linkedin-post {
+      padding: 16px;
+    }
+    .linkedin-post-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), #f04a40);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 700;
+      font-size: 15px;
+      flex-shrink: 0;
+    }
+    .post-name { font-size: 14px; font-weight: 700; }
+    .post-meta { font-size: 12px; color: var(--ink-mute); }
+    .post-body {
+      font-size: 14px;
+      color: var(--ink);
+      line-height: 1.55;
+      margin-bottom: 12px;
+    }
+    .post-body a { color: #0a66c2; text-decoration: none; }
+
+    /* The actual OG card */
+    .og-card-linkedin {
+      border: 1px solid rgba(0,0,0,0.12);
+      border-radius: 8px;
+      overflow: hidden;
+      background: white;
+    }
+    .og-image {
+      width: 100%;
+      aspect-ratio: 1200/630;
+      background: var(--accent);
+      position: relative;
+      overflow: hidden;
+    }
+    .og-image-fill {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, #E5271C 0%, #f04a40 60%, #c0392b 100%);
+    }
+    .og-card-body-linkedin {
+      padding: 10px 14px 12px;
+      background: #f3f2ef;
+      border-top: 1px solid rgba(0,0,0,0.1);
+    }
+    .og-domain {
+      font-size: 11px;
+      color: var(--ink-mute);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 3px;
+    }
+    .og-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--ink);
+      margin-bottom: 3px;
+    }
+    .og-desc {
+      font-size: 13px;
+      color: var(--ink-soft);
+      line-height: 1.45;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    /* ── iMessage ── */
+    .imessage-chrome {
+      background: #1c1c1e;
+    }
+    .imessage-topbar {
+      background: #2c2c2e;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .imessage-back { color: #0a84ff; font-size: 14px; }
+    .imessage-contact {
+      flex: 1;
+      text-align: center;
+      font-size: 14px;
+      font-weight: 600;
+      color: white;
+    }
+    .imessage-body {
+      padding: 20px 16px;
+      display: flex;
+      justify-content: flex-end;
+    }
+    .imessage-bubble-wrap {
+      max-width: 75%;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 4px;
+    }
+    .imessage-text {
+      background: #0a84ff;
+      color: white;
+      padding: 9px 13px;
+      border-radius: 18px 18px 4px 18px;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+    .og-card-imessage {
+      background: white;
+      border-radius: 14px;
+      overflow: hidden;
+      width: 100%;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+    }
+    .og-card-imessage .og-image {
+      aspect-ratio: 1200/630;
+    }
+    .og-card-body-imessage {
+      padding: 10px 12px 12px;
+    }
+    .og-card-body-imessage .og-domain { color: #8e8e93; }
+    .og-card-body-imessage .og-title { font-size: 13px; }
+    .og-card-body-imessage .og-desc { font-size: 12px; color: #6e6e73; }
+
+    /* ── Slack ── */
+    .slack-chrome {
+      background: #1a1d21;
+    }
+    .slack-topbar {
+      background: #19171d;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .slack-channel { font-size: 14px; font-weight: 700; color: white; }
+    .slack-body { padding: 16px; }
+    .slack-message-wrap { display: flex; gap: 10px; }
+    .slack-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 6px;
+      background: linear-gradient(135deg, var(--accent), #f04a40);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 700;
+      font-size: 14px;
+      flex-shrink: 0;
+    }
+    .slack-msg-content { flex: 1; min-width: 0; }
+    .slack-name { font-size: 14px; font-weight: 700; color: white; }
+    .slack-time { font-size: 11px; color: #9b9b9b; margin-left: 6px; }
+    .slack-text { font-size: 14px; color: #d1d2d3; line-height: 1.5; margin: 4px 0 10px; }
+    .slack-text a { color: #1d9bd1; text-decoration: none; }
+
+    .og-card-slack {
+      border-left: 4px solid var(--accent);
+      padding-left: 12px;
+      margin-top: 4px;
+    }
+    .og-card-slack .og-image {
+      border-radius: 6px;
+      margin-top: 8px;
+      max-width: 360px;
+    }
+    .og-card-slack .og-title { font-size: 14px; color: #1d9bd1; margin-bottom: 2px; }
+    .og-card-slack .og-desc { font-size: 13px; color: #9b9b9b; }
+    .og-card-slack .og-domain { font-size: 11px; color: #6b6b6b; margin-bottom: 4px; }
+
+    /* ── Annotation ── */
+    .annotation {
+      max-width: 780px;
+      margin: 16px auto 0;
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .ann-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--ink-soft);
+    }
+    .ann-dot {
+      width: 14px;
+      height: 14px;
+      border-radius: 4px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .ann-dot.image { background: var(--accent); }
+    .ann-dot.title { background: #111; }
+    .ann-dot.desc { background: #888; }
+    .ann-dot.domain { background: #ccc; }
+
+    .divider {
+      max-width: 780px;
+      margin: 40px auto;
+      border: none;
+      border-top: 1px solid rgba(0,0,0,0.1);
+    }
+
+    .note-box {
+      max-width: 780px;
+      margin: 0 auto;
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      border-radius: 10px;
+      padding: 16px 20px;
+      font-size: 14px;
+      color: #92400e;
+      line-height: 1.6;
+    }
+    .note-box strong { color: #78350f; }
+  </style>
+</head>
+<body>
+
+  <div class="page-title">
+    <h1>Open Graph Preview — Option B demo</h1>
+    <p>This shows how your portfolio link would look when shared on different platforms. The <strong>red block is your image</strong>. The title, description and domain are separate text fields handled by the code — each platform lays them out in its own way.</p>
+  </div>
+
+  <!-- Explainer -->
+  <div class="explainer">
+    <div class="explainer-col">
+      <h3>What you provide</h3>
+      <div class="piece">
+        <div class="piece-icon red">🖼️</div>
+        <div class="piece-text">
+          <strong>The image (1200 × 630 px)</strong>
+          <span>Your red card — already in <code>public/</code>. It's the visual backdrop of the preview.</span>
+        </div>
+      </div>
+    </div>
+    <div class="explainer-col">
+      <h3>What I add in the code</h3>
+      <div class="piece">
+        <div class="piece-icon blue">✏️</div>
+        <div class="piece-text">
+          <strong>Title</strong>
+          <span>"Igor Tarantino — iOS &amp; visionOS Developer"</span>
+        </div>
+      </div>
+      <div class="piece">
+        <div class="piece-icon blue">📝</div>
+        <div class="piece-text">
+          <strong>Description</strong>
+          <span>"15 projects shipped, 6 apps on the App Store."</span>
+        </div>
+      </div>
+      <div class="piece">
+        <div class="piece-icon blue">🔗</div>
+        <div class="piece-text">
+          <strong>Domain</strong>
+          <span>cetreciii.github.io — extracted automatically from the URL.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Annotation legend -->
+  <div class="annotation" style="margin-bottom:32px">
+    <div class="ann-item"><div class="ann-dot image"></div> Your image</div>
+    <div class="ann-item"><div class="ann-dot title"></div> Title (code)</div>
+    <div class="ann-item"><div class="ann-dot desc"></div> Description (code)</div>
+    <div class="ann-item"><div class="ann-dot domain"></div> Domain (automatic)</div>
+  </div>
+
+  <!-- ── LinkedIn ── -->
+  <div class="platform-section">
+    <div class="platform-label">📘 &nbsp;LinkedIn</div>
+    <div class="platform-chrome linkedin-chrome">
+      <div class="linkedin-topbar">
+        <div class="linkedin-logo">
+          <svg viewBox="0 0 24 24" fill="white"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        </div>
+        <span class="linkedin-topbar-text">LinkedIn</span>
+      </div>
+      <div class="linkedin-post">
+        <div class="linkedin-post-header">
+          <div class="avatar">IT</div>
+          <div>
+            <div class="post-name">Igor Tarantino</div>
+            <div class="post-meta">iOS &amp; visionOS Developer · Just now</div>
+          </div>
+        </div>
+        <div class="post-body">
+          Excited to share my updated portfolio! Check it out 👇<br>
+          <a href="#">cetreciii.github.io/portfolio</a>
+        </div>
+        <div class="og-card-linkedin">
+          <div class="og-image"><div class="og-image-fill"></div></div>
+          <div class="og-card-body-linkedin">
+            <div class="og-domain">cetreciii.github.io</div>
+            <div class="og-title">Igor Tarantino — iOS &amp; visionOS Developer</div>
+            <div class="og-desc">15 projects shipped, 6 apps on the App Store. Building iOS, visionOS and macOS experiences at the Apple Developer Academy.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ── iMessage ── -->
+  <div class="platform-section">
+    <div class="platform-label">💬 &nbsp;iMessage / WhatsApp</div>
+    <div class="platform-chrome imessage-chrome">
+      <div class="imessage-topbar">
+        <span class="imessage-back">‹ Back</span>
+        <span class="imessage-contact">Recruiter 👤</span>
+      </div>
+      <div class="imessage-body">
+        <div class="imessage-bubble-wrap">
+          <div class="imessage-text">Here's my portfolio!</div>
+          <div class="og-card-imessage">
+            <div class="og-image"><div class="og-image-fill"></div></div>
+            <div class="og-card-body-imessage">
+              <div class="og-domain">cetreciii.github.io</div>
+              <div class="og-title">Igor Tarantino — iOS &amp; visionOS Developer</div>
+              <div class="og-desc">15 projects shipped, 6 apps on the App Store.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ── Slack ── -->
+  <div class="platform-section">
+    <div class="platform-label">💼 &nbsp;Slack</div>
+    <div class="platform-chrome slack-chrome">
+      <div class="slack-topbar">
+        <span class="slack-channel"># recruiting</span>
+      </div>
+      <div class="slack-body">
+        <div class="slack-message-wrap">
+          <div class="slack-avatar">IT</div>
+          <div class="slack-msg-content">
+            <span class="slack-name">Igor Tarantino</span>
+            <span class="slack-time">10:42 AM</span>
+            <div class="slack-text">
+              Hey team, I've updated my portfolio — <a href="#">cetreciii.github.io/portfolio</a>
+            </div>
+            <div class="og-card-slack">
+              <div class="og-domain">cetreciii.github.io</div>
+              <div class="og-title">Igor Tarantino — iOS &amp; visionOS Developer</div>
+              <div class="og-desc">15 projects shipped, 6 apps on the App Store. Building iOS, visionOS and macOS experiences at the Apple Developer Academy.</div>
+              <div class="og-image" style="max-width:360px;border-radius:6px;margin-top:8px"><div class="og-image-fill"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="note-box">
+    <strong>Note:</strong> The red block in each preview above represents your <code>Portfolio site card.png</code> image. On the real platforms, your actual image will appear there. The title, description, and domain are text I add to the code — they don't need to be part of the image at all.
+  </div>
+
+</body>
+</html>

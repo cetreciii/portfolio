@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { getMediumArticles } from "@/lib/medium";
+import { projects } from "@/lib/projects";
+import { apps } from "@/lib/apps";
 
 type GitHubProfile = {
   followers: number;
@@ -153,8 +155,8 @@ export function About() {
 
         <dl className="mt-14 grid grid-cols-2 gap-8 border-t border-[rgba(0,0,0,0.08)] pt-10 md:grid-cols-4">
           {[
-            { k: "14", v: "Projects built" },
-            { k: "6", v: "Apps on App Store" },
+            { k: projects.length.toString(), v: "Projects built" },
+            { k: apps.length.toString(), v: "Apps on App Store" },
             { k: "3", v: "Platforms (iOS, visionOS, macOS)" },
             { k: "Swift", v: "Main language" },
           ].map((s) => (

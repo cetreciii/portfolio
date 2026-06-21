@@ -36,9 +36,29 @@ function inlineBold(text: string): ReactNode {
   );
 }
 
+function parseImageSrc(line: string): string | null {
+  const match = line.match(/^!\[[^\]]*\]\(([^)]+)\)$/);
+  return match ? match[1] : null;
+}
+
 function renderMd(text: string, cls = "text-[17px] leading-[1.7] text-[rgba(0,0,0,0.82)]"): ReactNode[] {
   return text.split("\n\n").filter(Boolean).map((block, bi) => {
     const lines = block.split("\n").filter(Boolean);
+
+    // image block
+    const imgSrcs = lines.map(parseImageSrc);
+    if (imgSrcs.every(s => s !== null)) {
+      const srcs = imgSrcs as string[];
+      return (
+        <div key={bi} className={`mt-8 grid gap-4 ${srcs.length === 1 ? "" : "sm:grid-cols-2"}`}>
+          {srcs.map((src, i) => (
+            <div key={i} className="overflow-hidden rounded-[12px] border border-[rgba(0,0,0,0.08)] bg-canvas-warm shadow-card">
+              <ZoomableImage src={src} alt={`image ${i + 1}`} width={700} height={450} className="w-full object-cover" />
+            </div>
+          ))}
+        </div>
+      );
+    }
 
     if (lines.every(l => /^\s*-\s/.test(l))) {
       return (

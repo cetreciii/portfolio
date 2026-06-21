@@ -11,9 +11,28 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Igor's Portfolio",
-  description:
-    "My projects and my learning!",
+  title: "Igor Tarantino - iOS and visionOS indie developer",
+  description: "Learn. Improve. Empower.",
+  openGraph: {
+    type: "website",
+    url: "https://cetreciii.github.io/portfolio",
+    title: "Igor Tarantino - iOS and visionOS indie developer",
+    description: "Learn. Improve. Empower.",
+    images: [
+      {
+        url: "https://cetreciii.github.io/portfolio/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Igor Tarantino - iOS and visionOS indie developer",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Igor Tarantino - iOS and visionOS indie developer",
+    description: "Learn. Improve. Empower.",
+    images: ["https://cetreciii.github.io/portfolio/og-image.png"],
+  },
 };
 
 export const viewport = {

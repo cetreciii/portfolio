@@ -1,0 +1,787 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portfolio Audit Report</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --accent: #E5271C;
+      --accent-soft: #fdeaea;
+      --accent-text: #b91c1c;
+      --ink: #111;
+      --ink-soft: rgba(0,0,0,0.6);
+      --ink-mute: rgba(0,0,0,0.38);
+      --canvas: #fff;
+      --canvas-warm: #f8f7f5;
+      --green: #16a34a;
+      --green-soft: #dcfce7;
+      --green-text: #15803d;
+      --amber: #d97706;
+      --amber-soft: #fef3c7;
+      --amber-text: #92400e;
+      --blue: #2563eb;
+      --blue-soft: #eff6ff;
+      --blue-text: #1e40af;
+      --radius: 14px;
+      --shadow: 0 1px 3px rgba(0,0,0,0.07), 0 4px 16px rgba(0,0,0,0.06);
+      --shadow-deep: 0 4px 24px rgba(0,0,0,0.12);
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      background: var(--canvas-warm);
+      color: var(--ink);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    /* ── Header ── */
+    .site-header {
+      background: white;
+      border-bottom: 1px solid rgba(0,0,0,0.08);
+      padding: 28px 24px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(12px);
+      background: rgba(255,255,255,0.9);
+    }
+    .site-header-inner {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .site-header h1 {
+      font-size: 20px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+    }
+    .site-header p {
+      font-size: 13px;
+      color: var(--ink-mute);
+      margin-top: 2px;
+    }
+    .badge-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 999px;
+    }
+    .badge-fixed { background: var(--green-soft); color: var(--green-text); }
+    .badge-suggest { background: var(--blue-soft); color: var(--blue-text); }
+    .badge-warn { background: var(--amber-soft); color: var(--amber-text); }
+
+    /* ── Layout ── */
+    .main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 24px 80px;
+    }
+
+    /* ── Tabs ── */
+    .tabs {
+      display: flex;
+      gap: 4px;
+      background: white;
+      border: 1px solid rgba(0,0,0,0.08);
+      border-radius: 10px;
+      padding: 4px;
+      width: fit-content;
+      margin-bottom: 32px;
+      box-shadow: var(--shadow);
+    }
+    .tab-btn {
+      padding: 8px 18px;
+      border-radius: 7px;
+      border: none;
+      background: transparent;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      color: var(--ink-mute);
+      transition: all 0.18s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .tab-btn.active {
+      background: var(--ink);
+      color: white;
+    }
+    .tab-btn:hover:not(.active) { color: var(--ink); background: var(--canvas-warm); }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* ── Section title ── */
+    .section-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-mute);
+      margin-bottom: 14px;
+    }
+
+    /* ── Summary cards ── */
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+      margin-bottom: 40px;
+    }
+    .summary-card {
+      background: white;
+      border-radius: var(--radius);
+      border: 1px solid rgba(0,0,0,0.08);
+      padding: 20px;
+      box-shadow: var(--shadow);
+    }
+    .summary-card .number {
+      font-size: 36px;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      line-height: 1;
+    }
+    .summary-card .label {
+      font-size: 13px;
+      color: var(--ink-soft);
+      margin-top: 4px;
+    }
+    .num-red { color: var(--accent); }
+    .num-green { color: var(--green); }
+    .num-blue { color: var(--blue); }
+
+    /* ── Finding cards ── */
+    .finding {
+      background: white;
+      border-radius: var(--radius);
+      border: 1px solid rgba(0,0,0,0.08);
+      box-shadow: var(--shadow);
+      margin-bottom: 16px;
+      overflow: hidden;
+      transition: box-shadow 0.2s;
+    }
+    .finding:hover { box-shadow: var(--shadow-deep); }
+
+    .finding-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 20px 22px;
+      cursor: pointer;
+      user-select: none;
+    }
+    .finding-number {
+      flex-shrink: 0;
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .finding-number.fixed { background: var(--green-soft); color: var(--green-text); }
+    .finding-number.suggest { background: var(--blue-soft); color: var(--blue-text); }
+
+    .finding-meta { flex: 1; min-width: 0; }
+    .finding-title {
+      font-size: 15px;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+    .finding-location {
+      margin-top: 4px;
+      font-size: 12px;
+      font-family: "SF Mono", "Fira Code", monospace;
+      color: var(--ink-mute);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .finding-tags {
+      display: flex;
+      gap: 6px;
+      margin-top: 8px;
+      flex-wrap: wrap;
+    }
+    .tag {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 999px;
+    }
+    .tag-fixed { background: var(--green-soft); color: var(--green-text); }
+    .tag-suggest { background: var(--blue-soft); color: var(--blue-text); }
+    .tag-severity-high { background: #fee2e2; color: #991b1b; }
+    .tag-severity-medium { background: var(--amber-soft); color: var(--amber-text); }
+    .tag-severity-low { background: var(--canvas-warm); color: var(--ink-mute); }
+    .tag-ux { background: #f3e8ff; color: #6b21a8; }
+    .tag-content { background: #fff7ed; color: #9a3412; }
+    .tag-bug { background: #fee2e2; color: #991b1b; }
+
+    .chevron {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      color: var(--ink-mute);
+      transition: transform 0.25s;
+    }
+    .finding.open .chevron { transform: rotate(180deg); }
+
+    .finding-body {
+      display: none;
+      padding: 0 22px 22px;
+      border-top: 1px solid rgba(0,0,0,0.06);
+    }
+    .finding.open .finding-body { display: block; }
+
+    .finding-section {
+      margin-top: 16px;
+    }
+    .finding-section-label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-mute);
+      margin-bottom: 6px;
+    }
+    .finding-section p {
+      font-size: 14px;
+      color: var(--ink-soft);
+      line-height: 1.65;
+    }
+
+    /* ── Code diff ── */
+    .diff {
+      font-family: "SF Mono", "Fira Code", monospace;
+      font-size: 13px;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid rgba(0,0,0,0.08);
+      margin-top: 6px;
+    }
+    .diff-filename {
+      background: var(--canvas-warm);
+      padding: 7px 14px;
+      font-size: 11px;
+      color: var(--ink-mute);
+      border-bottom: 1px solid rgba(0,0,0,0.07);
+    }
+    .diff-line {
+      padding: 3px 14px;
+      line-height: 1.6;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+    .diff-line.removed { background: #fff1f0; color: #c01010; }
+    .diff-line.added { background: #f0fff4; color: #166534; }
+    .diff-line.context { background: white; color: var(--ink-soft); }
+    .diff-line.removed::before { content: "−  "; opacity: 0.5; }
+    .diff-line.added::before { content: "+  "; opacity: 0.5; }
+    .diff-line.context::before { content: "   "; }
+
+    /* ── Suggestion card extras ── */
+    .impact-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 14px;
+    }
+    .impact-label { font-size: 12px; font-weight: 600; color: var(--ink-mute); flex-shrink: 0; }
+    .impact-track {
+      flex: 1;
+      height: 6px;
+      background: var(--canvas-warm);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .impact-fill {
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--blue) 0%, #818cf8 100%);
+      transition: width 0.6s cubic-bezier(0.16,1,0.3,1);
+    }
+
+    /* ── Legend ── */
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 28px;
+    }
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--ink-soft);
+    }
+    .legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 3px;
+    }
+
+    hr.divider {
+      border: none;
+      border-top: 1px solid rgba(0,0,0,0.07);
+      margin: 32px 0;
+    }
+
+    @media (max-width: 600px) {
+      .tabs { width: 100%; }
+      .tab-btn { flex: 1; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="site-header-inner">
+    <div>
+      <h1>Portfolio Audit Report</h1>
+      <p>Igor Tarantino · igordev.portfolio · June 2026</p>
+    </div>
+    <div class="badge-row">
+      <span class="badge badge-fixed">✓ 6 bugs fixed</span>
+      <span class="badge badge-suggest">◈ 4 suggestions</span>
+    </div>
+  </div>
+</header>
+
+<main class="main">
+
+  <!-- Summary -->
+  <div class="summary-grid">
+    <div class="summary-card">
+      <div class="number num-red">6</div>
+      <div class="label">Bugs found &amp; fixed</div>
+    </div>
+    <div class="summary-card">
+      <div class="number num-green">6</div>
+      <div class="label">Already resolved</div>
+    </div>
+    <div class="summary-card">
+      <div class="number" style="color:#111">0</div>
+      <div class="label">Broken image paths</div>
+    </div>
+    <div class="summary-card">
+      <div class="number num-blue">4</div>
+      <div class="label">Recruiter suggestions</div>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <button class="tab-btn active" onclick="switchTab('bugs')">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      Bugs Fixed
+    </button>
+    <button class="tab-btn" onclick="switchTab('suggestions')">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      Suggestions
+    </button>
+  </div>
+
+  <!-- ── BUGS TAB ── -->
+  <div id="tab-bugs" class="tab-panel active">
+
+    <p class="section-label">6 issues · all resolved</p>
+
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background:#fee2e2"></div> Bug</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#fff7ed"></div> Content / Copy</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--green-soft)"></div> Fixed</div>
+    </div>
+
+    <!-- Bug 1 -->
+    <div class="finding" id="f1">
+      <div class="finding-header" onclick="toggle('f1')">
+        <div class="finding-number fixed">1</div>
+        <div class="finding-meta">
+          <div class="finding-title">Stale "14 projects" stat</div>
+          <div class="finding-location">components/About.tsx · line 156</div>
+          <div class="finding-tags">
+            <span class="tag tag-bug">Bug</span>
+            <span class="tag tag-severity-high">High</span>
+            <span class="tag tag-fixed">✓ Fixed</span>
+          </div>
+        </div>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="finding-body">
+        <div class="finding-section">
+          <div class="finding-section-label">What was wrong</div>
+          <p>With Whoooshh added there are now <strong>15 projects</strong> in <code>lib/projects.ts</code>, but the About section hardcoded <code>"14"</code>. The Projects grid displayed 15 cards while the stat below said 14 — a contradiction a recruiter would notice immediately.</p>
+        </div>
+        <div class="finding-section">
+          <div class="finding-section-label">Fix applied</div>
+          <div class="diff">
+            <div class="diff-filename">components/About.tsx</div>
+            <div class="diff-line removed">{ k: "14", v: "Projects built" },</div>
+            <div class="diff-line added">{ k: projects.length.toString(), v: "Projects built" },</div>
+          </div>
+          <p style="margin-top:10px;font-size:13px;color:var(--ink-mute)">Also imported <code>projects</code> from <code>@/lib/projects</code> at the top of the file. The stat now updates automatically whenever you add a new project.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bug 2 -->
+    <div class="finding" id="f2">
+      <div class="finding-header" onclick="toggle('f2')">
+        <div class="finding-number fixed">2</div>
+        <div class="finding-meta">
+          <div class="finding-title">Infinite loading skeleton on network error</div>
+          <div class="finding-location">components/Articles.tsx · line 32</div>
+          <div class="finding-tags">
+            <span class="tag tag-bug">Bug</span>
+            <span class="tag tag-severity-high">High</span>
+            <span class="tag tag-fixed">✓ Fixed</span>
+          </div>
+        </div>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="finding-body">
+        <div class="finding-section">
+          <div class="finding-section-label">What was wrong</div>
+          <p>The <code>getMediumArticles</code> call in <code>Articles.tsx</code> had no <code>.catch()</code>. If the rss2json API was unreachable (API down, no internet), the async function would throw, <code>.then()</code> would never fire, and <code>setLoading(false)</code> would never be called — leaving visitors staring at animated skeleton cards with no way out. <code>About.tsx</code> already had a <code>.catch(() => {})</code> on the same call; Articles was just missing it.</p>
+        </div>
+        <div class="finding-section">
+          <div class="finding-section-label">Fix applied</div>
+          <div class="diff">
+            <div class="diff-filename">components/Articles.tsx</div>
+            <div class="diff-line removed">getMediumArticles("igor.tarantino").then((data) => {</div>
+            <div class="diff-line removed">  setArticles(data);</div>
+            <div class="diff-line removed">  setLoading(false);</div>
+            <div class="diff-line removed">});</div>
+            <div class="diff-line added">getMediumArticles("igor.tarantino")</div>
+            <div class="diff-line added">  .then((data) => {</div>
+            <div class="diff-line added">    setArticles(data);</div>
+            <div class="diff-line added">    setLoading(false);</div>
+            <div class="diff-line added">  })</div>
+            <div class="diff-line added">  .catch(() => setLoading(false));</div>
+          </div>
+          <p style="margin-top:10px;font-size:13px;color:var(--ink-mute)">On error, <code>articles</code> stays <code>[]</code> and <code>loading</code> becomes <code>false</code>, which triggers the existing <code>if (!loading && articles.length === 0) return null</code> guard — the section hides cleanly.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bug 3 -->
+    <div class="finding" id="f3">
+      <div class="finding-header" onclick="toggle('f3')">
+        <div class="finding-number fixed">3</div>
+        <div class="finding-meta">
+          <div class="finding-title">Duplicate word — "it it winks"</div>
+          <div class="finding-location">lib/projects.ts · Whoooshh · attitude section</div>
+          <div class="finding-tags">
+            <span class="tag tag-content">Content</span>
+            <span class="tag tag-severity-medium">Medium</span>
+            <span class="tag tag-fixed">✓ Fixed</span>
+          </div>
+        </div>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="finding-body">
+        <div class="finding-section">
+          <div class="finding-section-label">What was wrong</div>
+          <p>Typo in the Whoooshh project's attitude section, visible to any recruiter who opens that project page.</p>
+        </div>
+        <div class="finding-section">
+          <div class="finding-section-label">Fix applied</div>
+          <div class="diff">
+            <div class="diff-filename">lib/projects.ts</div>
+            <div class="diff-line removed">So this app is for everyone, but it it winks at anyone who will come after me</div>
+            <div class="diff-line added">So this app is for everyone, but it winks at anyone who will come after me</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bug 4 -->
+    <div class="finding" id="f4">
+      <div class="finding-header" onclick="toggle('f4')">
+        <div class="finding-number fixed">4</div>
+        <div class="finding-meta">
+          <div class="finding-title">Grammar error — "informations"</div>
+          <div class="finding-location">lib/projects.ts · Detective Dino · description</div>
+          <div class="finding-tags">
+            <span class="tag tag-content">Content</span>
+            <span class="tag tag-severity-medium">Medium</span>
+            <span class="tag tag-fixed">✓ Fixed</span>
+          </div>
+        </div>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="finding-body">
+        <div class="finding-section">
+          <div class="finding-section-label">What was wrong</div>
+          <p>"Information" is an uncountable noun in English and has no plural. "Informations" is a common Italian-to-English false friend ("informazioni").</p>
+        </div>
+        <div class="finding-section">
+          <div class="finding-section-label">Fix applied</div>
+          <div class="diff">
+            <div class="diff-filename">lib/projects.ts</div>
+            <div class="diff-line removed">a crime scene based on the informations inserted by the user</div>
+            <div class="diff-line added">a crime scene based on the information inserted by the user</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bug 5 -->
+    <div class="finding" id="f5">
+      <div class="finding-header" onclick="toggle('f5')">
+        <div class="finding-number fixed">5</div>
+        <div class="finding-meta">
+          <div class="finding-title">False-friend word — "analogical signal"</div>
+          <div class="finding-location">lib/projects.ts · PlantGogh · learn section</div>
+          <div class="finding-tags">
+            <span class="tag tag-content">Content</span>
+            <span class="tag tag-severity-medium">Medium</span>
+            <span class="tag tag-fixed">✓ Fixed</span>
+          </div>
+        </div>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="finding-body">
+        <div class="finding-section">
+          <div class="finding-section-label">What was wrong</div>
+          <p>"Analogical" is a direct calque of the Italian "analogico". In English, the correct technical adjective for signals is <em>analog</em> (US) or <em>analogue</em> (UK). A recruiter with a technical background would catch this.</p>
+        </div>
+        <div class="finding-section">
+          <div class="finding-section-label">Fix applied</div>
+          <div class="diff">
+            <div class="diff-filename">lib/projects.ts</div>
+            <div class="diff-line removed">Translating digital and analogical signal from the plant</div>
+            <div class="diff-line added">Translating digital and analog signals from the plant</div>
+          </div>
+          <p style="margin-top:10px;font-size:13px;color:var(--ink-mute)">Also corrected "signal" → "signals" (plural, since multiple signals are mentioned).</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bug 6 -->
+    <div class="finding" id="f6">
+      <div class="finding-header" onclick="toggle('f6')">
+        <div class="finding-number fixed">6</div>
+        <div class="finding-meta">
+          <div class="finding-title">Nowhat App Store URL slug mismatch</div>
+          <div class="finding-location">components/PublishedApps.tsx · line 7</div>
+          <div class="finding-tags">
+            <span class="tag tag-bug">Bug</span>
+            <span class="tag tag-severity-low">Low</span>
+            <span class="tag tag-fixed">✓ Fixed</span>
+          </div>
+        </div>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="finding-body">
+        <div class="finding-section">
+          <div class="finding-section-label">What was wrong</div>
+          <p>The same app (ID <code>6744868925</code>) was referenced with two different URL slugs: the Italian localized one in <code>PublishedApps.tsx</code> and the English one in <code>lib/projects.ts</code>. Both resolve to the same app since Apple redirects on the app ID, but stale localized slugs can break in certain regions or during App Store Connect renames.</p>
+        </div>
+        <div class="finding-section">
+          <div class="finding-section-label">Fix applied</div>
+          <div class="diff">
+            <div class="diff-filename">components/PublishedApps.tsx</div>
+            <div class="diff-line removed">apps.apple.com/it/app/nowhat-organizer-di-idee/id6744868925</div>
+            <div class="diff-line added">apps.apple.com/it/app/nowhat-ideas-organizer/id6744868925</div>
+          </div>
+          <p style="margin-top:10px;font-size:13px;color:var(--ink-mute)">Both files now use the same canonical English slug, consistent with the App Store listing name.</p>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /tab-bugs -->
+
+  <!-- ── SUGGESTIONS TAB ── -->
+  <div id="tab-suggestions" class="tab-panel">
+
+    <p class="section-label">4 recruiter-impact improvements · not yet applied</p>
+
+    <div class="legend">
+      <div class="legend-item"><div class="legend-dot" style="background:var(--blue-soft)"></div> Suggestion (pending)</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#f3e8ff"></div> UX</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#fff7ed"></div> Content</div>
+    </div>
+
+    <!-- S1 -->
+    <div class="finding" id="s1">
+      <div class="finding-header" onclick="toggle('s1')">
+        <div class="finding-number suggest">A</div>
+        <div class="finding-meta">
+          <div class="finding-title">No mobile navigation menu</div>
+          <div class="finding-location">components/Navbar.tsx</div>
+          <div class="finding-tags">
+            <span class="tag tag-ux">UX</span>
+            <span class="tag tag-severity-high">High impact</span>
+            <span class="tag tag-suggest">Pending</span>
+          </div>
+        </div>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="finding-body">
+        <div class="finding-section">
+          <div class="finding-section-label">The problem</div>
+          <p>All five nav links (<em>About me, Projects, Articles, Published apps, Open source</em>) are styled <code>hidden sm:inline</code>, meaning they're invisible on any screen narrower than 640 px. Mobile visitors — including recruiters browsing on their phone — see <strong>only</strong> the "Send a message" button. There's no way to jump to sections or navigate back from a project page without using the browser back button.</p>
+        </div>
+        <div class="finding-section">
+          <div class="finding-section-label">Recommended fix</div>
+          <p>Add a hamburger button on mobile that opens a slide-down or slide-in drawer with the same links. The drawer should close on link click and on outside tap. This is a single self-contained addition to <code>Navbar.tsx</code> using a <code>useState</code> toggle and some Tailwind transitions — no external library needed.</p>
+        </div>
+        <div class="impact-bar">
+          <span class="impact-label">Recruiter impact</span>
+          <div class="impact-track"><div class="impact-fill" style="width:90%"></div></div>
+          <span style="font-size:12px;color:var(--ink-mute);flex-shrink:0">90%</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- S2 -->
+    <div class="finding" id="s2">
+      <div class="finding-header" onclick="toggle('s2')">
+        <div class="finding-number suggest">B</div>
+        <div class="finding-meta">
+          <div class="finding-title">Derive About stats from data, not hardcoded values</div>
+          <div class="finding-location">components/About.tsx · stats grid</div>
+          <div class="finding-tags">
+            <span class="tag tag-bug">Bug prevention</span>
+            <span class="tag tag-severity-medium">Medium impact</span>
+            <span class="tag tag-suggest">Pending</span>
+          </div>
+        </div>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="finding-body">
+        <div class="finding-section">
+          <div class="finding-section-label">The problem</div>
+          <p>The projects count was already fixed to use <code>projects.length</code>, but "6 Apps on App Store" is still hardcoded. Every time you publish a new app (like Whoooshh when it ships), you'll need to remember to update this number manually — and it'll go stale again the same way "14" did.</p>
+        </div>
+        <div class="finding-section">
+          <div class="finding-section-label">Recommended fix</div>
+          <p>Import the <code>apps</code> array from <code>PublishedApps.tsx</code> (or extract it to a shared <code>lib/apps.ts</code> file) and replace <code>"6"</code> with <code>apps.length.toString()</code>. The stat will then stay accurate automatically as you add apps to the list.</p>
+        </div>
+        <div class="impact-bar">
+          <span class="impact-label">Recruiter impact</span>
+          <div class="impact-track"><div class="impact-fill" style="width:55%"></div></div>
+          <span style="font-size:12px;color:var(--ink-mute);flex-shrink:0">55%</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- S3 -->
+    <div class="finding" id="s3">
+      <div class="finding-header" onclick="toggle('s3')">
+        <div class="finding-number suggest">C</div>
+        <div class="finding-meta">
+          <div class="finding-title">No Open Graph / social preview tags on the home page</div>
+          <div class="finding-location">app/layout.tsx · &lt;head&gt;</div>
+          <div class="finding-tags">
+            <span class="tag tag-ux">UX</span>
+            <span class="tag tag-severity-medium">Medium impact</span>
+            <span class="tag tag-suggest">Pending</span>
+          </div>
+        </div>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="finding-body">
+        <div class="finding-section">
+          <div class="finding-section-label">The problem</div>
+          <p>Project detail pages have proper <code>&lt;title&gt;</code> and <code>&lt;description&gt;</code> metadata, but the home page has no <code>og:title</code>, <code>og:description</code>, or <code>og:image</code> tags. When a recruiter pastes your portfolio URL into LinkedIn, Slack, or email — <strong>no preview card appears</strong>. First impression, missed.</p>
+        </div>
+        <div class="finding-section">
+          <div class="finding-section-label">Recommended fix</div>
+          <p>Export a <code>metadata</code> object from <code>app/layout.tsx</code> (or <code>app/page.tsx</code>) using Next.js's built-in metadata API. Include <code>title</code>, <code>description</code>, <code>openGraph</code> (title, description, image), and <code>twitter</code> card fields. Create a 1200×630 OG image — even a simple gradient card with your name and tagline works well.</p>
+        </div>
+        <div class="impact-bar">
+          <span class="impact-label">Recruiter impact</span>
+          <div class="impact-track"><div class="impact-fill" style="width:70%"></div></div>
+          <span style="font-size:12px;color:var(--ink-mute);flex-shrink:0">70%</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- S4 -->
+    <div class="finding" id="s4">
+      <div class="finding-header" onclick="toggle('s4')">
+        <div class="finding-number suggest">D</div>
+        <div class="finding-meta">
+          <div class="finding-title">Add a professional hook at the top of the About section</div>
+          <div class="finding-location">components/About.tsx · opening paragraph</div>
+          <div class="finding-tags">
+            <span class="tag tag-content">Content</span>
+            <span class="tag tag-severity-medium">Medium impact</span>
+            <span class="tag tag-suggest">Pending</span>
+          </div>
+        </div>
+        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+      </div>
+      <div class="finding-body">
+        <div class="finding-section">
+          <div class="finding-section-label">The problem</div>
+          <p>The About section opens with <em>"I like building things. It could be an iOS app, a visionOS app or also something with LEGOs."</em> This is warm and authentic — but a recruiter scanning the page has about 10–15 seconds before they decide to keep reading. The first sentence doesn't immediately communicate your <strong>value</strong>: what you build, for what platforms, with what track record.</p>
+        </div>
+        <div class="finding-section">
+          <div class="finding-section-label">Recommended fix</div>
+          <p>Add 1–2 punchy sentences <em>before</em> the existing personal paragraphs that anchor your credentials, for example:</p>
+          <blockquote style="border-left:3px solid var(--accent);padding:10px 16px;margin:12px 0;font-size:14px;color:var(--ink-soft);font-style:italic;background:var(--canvas-warm);border-radius:0 8px 8px 0">
+            "iOS &amp; visionOS developer with 15 projects shipped and 6 apps live on the App Store — from accessibility tools to spatial computing experiences. Currently in the Apple Developer Academy's ARTE programme."
+          </blockquote>
+          <p>Then let the existing personal story follow. The warm voice stays; the hook just makes sure busy recruiters immediately understand who you are.</p>
+        </div>
+        <div class="impact-bar">
+          <span class="impact-label">Recruiter impact</span>
+          <div class="impact-track"><div class="impact-fill" style="width:75%"></div></div>
+          <span style="font-size:12px;color:var(--ink-mute);flex-shrink:0">75%</span>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /tab-suggestions -->
+
+</main>
+
+<script>
+  function switchTab(name) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('tab-' + name).classList.add('active');
+    event.currentTarget.classList.add('active');
+  }
+
+  function toggle(id) {
+    const el = document.getElementById(id);
+    el.classList.toggle('open');
+  }
+
+  // Animate impact bars when suggestions tab opens
+  document.querySelector('[onclick="switchTab(\'suggestions\')"]').addEventListener('click', () => {
+    setTimeout(() => {
+      document.querySelectorAll('.impact-fill').forEach(bar => {
+        const w = bar.style.width;
+        bar.style.width = '0%';
+        requestAnimationFrame(() => { bar.style.width = w; });
+      });
+    }, 50);
+  });
+</script>
+</body>
+</html>

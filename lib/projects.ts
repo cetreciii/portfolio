@@ -20,6 +20,56 @@ export type Project = {
 
 export const projects: Project[] = [
   {
+    slug: "whoooshh",
+    title: "Whoooshh",
+    tagline: "A collaborative spatial drawing app for visionOS with immersive mode and SharePlay.",
+    description: `Whoooshh is a simple drawing app for visionOS. That is my personal take on the market of drawing apps for Apple Vision Pro, but with a twist!
+
+It is possible for multiple people to draw all together! It can happen locally, with the person being physically present in the room with you, or it could happen in a FaceTime call, with personas! All thanks to Share Play!
+
+Drawings can be:
+- **immersive**: people can draw in the air around them! They could draw a new flower in their garden, draw planets in their room or they can build a whole house and pretend to live in it!
+- **on a canvas**: Whoooshh allows people to draw also on a white canvas, letting their creativity flow in the good old fashioned way! There are three sizes of canvas that can be selected such as "small", "medium" and "big".
+
+![](/projects/whoooshh/PP_raw_4.jpg)
+![](/projects/whoooshh/PP_raw_5.jpg)
+
+But Whoooshh is not only drawing on blank canvas! You can download the iOS version of the app to take a picture or select one from your gallery and send it to your Vision Pro, directly in the app! It will become the background of the canvas and you can draw on that picture! Imagine taking a picture of a friend and drawing a hat or a beard on the face!
+
+![](/projects/whoooshh/Product_Page_Screenshot_iOS_2.png)
+![](/projects/whoooshh/Product_Page_Screenshot_iOS_3.png)`,
+    year: "2026",
+    role: "visionOS + iOS Dev",
+    stack: ["visionOS", "SwiftUI", "MultipeerConnectivity", "SharePlay", "iOS"],
+    gradient: "linear-gradient(135deg, #f0e8ff 0%, #ddd0ff 55%, #c8c0f8 100%)",
+    emoji: "🌀",
+    keywords: ["Multipeer Connectivity", "SharePlay", "Multi-platform"],
+    icon: "/projects/whoooshh/App_Icon_visionOS_Glass.png",
+    coverImage: "/projects/whoooshh/Banner.png",
+    sections: [
+      {
+        body: `This is my second app where I wanted to implement the word "multi" two times!
+
+MULTI platform and MULTI-peer connectivity!
+
+The app is, in fact, divided into two target: a visionOS build and a iOS build. The iOS build is the companion for the visionOS and the reason is the following: from the iOS app, the user can take a picture or pick it from the gallery and then send it into the canvas on the visionOS build.
+
+And the picture is sent by leveraging the native Apple's Multi-peer connectivity! No cloud uploading, everything is local and stays on the devices, without being routed in external servers.
+
+The biggest lesson I take away from this project is, without a doubt, having learned how to manage a cross-platform app in Xcode, how to handle its deployment on App Store Connect, and its final shipment.`,
+        category: "learn",
+      },
+      {
+        body: `I wanted to create something that could create a joyful moment for people who are diving into the world of Spatial Computing for the first time and, more specifically, while building this app, I was thinking specifically about people who are going to walk my steps in the ARTE program of the Apple Developer Academy. And I wanted to give them a simple tool to try right away the Apple Vision Pro and have fun together!
+
+So this app is for everyone, but it winks at anyone who will come after me and wants to start getting familiar with the Apple Vision Pro. Or, more simply, it's aimed at someone who has recently purchased the device!
+
+It's my small present for who will come later! Hoping to pass them the same passion and commitment that I've had during the program, wishing them to achieve amazing results!`,
+        category: "attitude",
+      },
+    ],
+  },
+  {
     slug: "roundeo",
     title: "Roundeo",
     tagline: "A free, open-source macOS tool that rounds video corners for Keynote demos.",
@@ -93,7 +143,7 @@ With Liquid, I want to address all those problems, helping dyscalculic people to
     emoji: "💧",
     keywords: ["Desk research", "Digital drawing on iPad", "Studying financial cultures"],
     icon: "/projects/liquid/AppIcon_2_Light_Rounded.png",
-    coverImage: "/projects/liquid/bcd04e16-0d24-432a-8521-4d55b6b6b6a7.png",
+    coverImage: "/projects/liquid/banner.png",
     descriptionImages: ["/projects/liquid/2.png"],
     sections: [
       {
@@ -200,7 +250,7 @@ It is about a detective dinosaur whose mission is to solve crimes and find the a
 - The weapon of the murder;
 - Any extra information to personalize even more the story.
 
-After that, the magic happens: the on-device language model of Apple Intelligence creates a crime scene based on the informations inserted by the user and also generates statements from three suspects who claim they're not guilty, each telling their version of events.
+After that, the magic happens: the on-device language model of Apple Intelligence creates a crime scene based on the information inserted by the user and also generates statements from three suspects who claim they're not guilty, each telling their version of events.
 
 One of them, however, **is lying**, and the player must figure out who by comparing their statements to the story generated by Apple Intelligence. If the player accuses the real culprit, the case is solved and logged in the statistics.
 
@@ -548,7 +598,7 @@ All of those data are then fed to a generative AI that produces drawings (I used
         body: `I took ownership of the coding section of this project:
 - Coded in C++ the Arduino board
 - Coded an Android app to connect to the Arduino board and retrieve the generated image
-- Translating digital and analogical signal from the plant and the environment into language prompts to send to Midjourney
+- Translating digital and analog signals from the plant and the environment into language prompts to send to Midjourney
 - Wrote API calls to send requests to DreamStudio Generative AI (sending prompts and retrieving images to display in the app.`,
         category: "learn",
         images: [

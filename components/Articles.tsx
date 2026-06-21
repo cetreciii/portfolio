@@ -29,10 +29,12 @@ export function Articles() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getMediumArticles("igor.tarantino").then((data) => {
-      setArticles(data);
-      setLoading(false);
-    });
+    getMediumArticles("igor.tarantino")
+      .then((data) => {
+        setArticles(data);
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
   }, []);
 
   if (!loading && articles.length === 0) return null;
