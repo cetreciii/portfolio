@@ -1,18 +1,31 @@
 "use client";
 
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 const navLinks = [
-  { href: "/#about", label: "About me" },
-  { href: "/#work", label: "Projects" },
-  { href: "/#articles", label: "Articles" },
-  { href: "/#apps", label: "Published apps" },
-  { href: "/#opensource", label: "Open source" },
+  { href: "/#about", label: "About me", id: "about" },
+  { href: "/#work", label: "Projects", id: "work" },
+  { href: "/#articles", label: "Articles", id: "articles" },
+  { href: "/#apps", label: "Published apps", id: "apps" },
+  { href: "/#opensource", label: "Open source", id: "opensource" },
 ];
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+
+  const handleNavClick = useCallback(
+    (e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) => {
+      const base = (process.env.NEXT_PUBLIC_BASE_PATH ?? "").replace(/\/$/, "");
+      const pathname = window.location.pathname.replace(/\/$/, "");
+      if (pathname === base || pathname === base + "/index") {
+        e.preventDefault();
+        document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" });
+      }
+      setIsOpen(false);
+    },
+    []
+  );
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setIsOpen(false); };
@@ -42,11 +55,12 @@ export function Navbar() {
 
         <div className="flex items-center gap-2 sm:gap-6 text-[15px] font-medium text-[rgba(0,0,0,0.7)]">
           {/* Desktop links */}
-          {navLinks.map(({ href, label }) => (
+          {navLinks.map(({ href, label, id }) => (
             <Link
               key={href}
               href={href}
               className="hidden sm:inline hover:text-ink transition-colors"
+              onClick={(e) => handleNavClick(e, id)}
             >
               {label}
             </Link>
@@ -90,12 +104,12 @@ export function Navbar() {
         }`}
       >
         <div className="border-t border-[rgba(0,0,0,0.06)] bg-white px-6 pb-5 pt-2 flex flex-col">
-          {navLinks.map(({ href, label }) => (
+          {navLinks.map(({ href, label, id }) => (
             <Link
               key={href}
               href={href}
               className="border-b border-[rgba(0,0,0,0.06)] py-3.5 text-[16px] font-medium text-ink-soft transition-colors hover:text-ink last:border-0"
-              onClick={() => setIsOpen(false)}
+              onClick={(e) => handleNavClick(e, id)}
             >
               {label}
             </Link>
