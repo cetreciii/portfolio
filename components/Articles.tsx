@@ -49,7 +49,7 @@ export function Articles() {
             </span>
             <h2 className="display-48 mt-4 text-ink">Things I've <span className="text-accent">written</span></h2>
             <p className="lead mt-4">
-              Every project teaches me something. I write about it so others don't have to figure it out alone — tutorials, reflections, and things I wish I'd known before I started building.
+              Every project teaches me something and I like to write about it so others don't have to figure it out alone! It's my contribution to the community since I believe in sharing to empower!
             </p>
           </div>
           <div className="hidden text-[13px] font-medium text-ink-mute md:block">

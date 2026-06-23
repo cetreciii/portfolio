@@ -49,7 +49,7 @@ export function Navbar() {
           <span className="inline-block size-6 rounded-md bg-gradient-to-br from-[#E1351A] to-[#F04535] shrink-0" />
           <div className="flex flex-col">
             <span className="text-[15px] font-semibold tracking-tight text-ink leading-tight">Igor Tarantino</span>
-            <span className="text-[10px] text-ink-mute leading-tight">iOS & visionOS Developer · Indie builder</span>
+            <span className="text-[10px] text-ink-mute leading-tight">iOS & visionOS developer · Indie builder</span>
           </div>
         </Link>
 
