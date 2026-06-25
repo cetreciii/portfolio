@@ -7,51 +7,69 @@ import { useState, useEffect, useRef, useCallback } from "react";
 const ease = [0.16, 1, 0.3, 1] as const;
 
 const allIcons = [
-  { src: "/projects/whoooshh/App_Icon_visionOS_Glass.png", alt: "Whoooshh" },
-  { src: "/projects/roundeo/app-icon.png", alt: "Roundeo" },
-  { src: "/projects/liquid/AppIcon_2_Light_Rounded.png", alt: "Liquid" },
-  { src: "/projects/gennit/AppIcon.png", alt: "Gennit" },
-  { src: "/projects/detective-dino/AppIconComposer.png", alt: "Detective Dino" },
-  { src: "/projects/airchestra/app_Icon_Airchestra.png", alt: "AirChestra" },
-  { src: "/projects/neglect-rehab/NegelectRehab_App_Icon.png", alt: "NeglectRehab" },
-  { src: "/projects/duidu/Duidu_App_Icon.png", alt: "Duidu" },
-  { src: "/projects/brainline/BrainLine_App_Icon.png", alt: "BrainLine" },
-  { src: "/projects/nowhat/Nowhat_App_Icon_Light.png", alt: "Nowhat?" },
-  { src: "/projects/postars/PoStars_App_Icon.png", alt: "PoStars" },
-  { src: "/projects/route66/Route66_App_Icon.png", alt: "Route66" },
-  { src: "/projects/keep-the-memory/KTM_App_Icon_1.png", alt: "Keep The Memory" },
-  { src: "/projects/waddumean/Waddumean_App_Icon.png", alt: "WADDUMEAN?" },
-  { src: "/projects/plantgogh/0493f6a7-aac8-450f-bdf9-708701f68ecd.png", alt: "PlantGogh" },
+  { src: "/projects/whoooshh/App_Icon_visionOS_Glass.png", alt: "Whoooshh", description: "Collaborative spatial drawing for Apple Vision Pro with SharePlay" },
+  { src: "/projects/roundeo/app-icon.png", alt: "Roundeo", description: "Rounds video corners for Keynote demos, free and open-source" },
+  { src: "/projects/liquid/AppIcon_2_Light_Rounded.png", alt: "Liquid", description: "Helps people with dyscalculia pay confidently in cash" },
+  { src: "/projects/gennit/AppIcon.png", alt: "Gennit", description: "Food party planner that handles everyone's allergies safely" },
+  { src: "/projects/detective-dino/AppIconComposer.png", alt: "Detective Dino", description: "Mystery game powered by Apple's on-device AI" },
+  { src: "/projects/airchestra/app_Icon_Airchestra.png", alt: "AirChestra", description: "Immersive visionOS experience with floating musical planets to conduct" },
+  { src: "/projects/neglect-rehab/NegelectRehab_App_Icon.png", alt: "NeglectRehab", description: "visionOS rehabilitation experience for spatial neglect patients" },
+  { src: "/projects/duidu/Duidu_App_Icon.png", alt: "Duidu", description: "Accessible drawing canvas that maps strokes to sound" },
+  { src: "/projects/brainline/BrainLine_App_Icon.png", alt: "BrainLine", description: "Explore the brain through a train journey metaphor" },
+  { src: "/projects/nowhat/Nowhat_App_Icon_Light.png", alt: "Nowhat?", description: "Sketch, prioritise, and organise your ideas on the go" },
+  { src: "/projects/postars/PoStars_App_Icon.png", alt: "PoStars", description: "Stargazing app generating personalised event posters with creative coding" },
+  { src: "/projects/route66/Route66_App_Icon.png", alt: "Route66", description: "Personal design exercise exploring Apple's Human Interface Guidelines" },
+  { src: "/projects/keep-the-memory/KTM_App_Icon_1.png", alt: "Keep The Memory", description: "GPS app to find loved ones in Neapolitan cemeteries" },
+  { src: "/projects/waddumean/Waddumean_App_Icon.png", alt: "WADDUMEAN?", description: "Real-time translation of Neapolitan hand gestures for foreigners" },
+  { src: "/projects/plantgogh/0493f6a7-aac8-450f-bdf9-708701f68ecd.png", alt: "PlantGogh", description: "Arduino plant generating AI art from its biological signals" },
 ];
 
 const ICON_SIZE = 160;
-const FADE_S = 1.6;   // slide-in / fade-in duration
-const HOLD_S = 2.2;   // time at full opacity in centre
+const CARD_HEIGHT = 240; // icon + gap + name + description
+const FADE_S = 1.6;
+const HOLD_S = 2.2;
 const FADE_OUT_S = 1.6;
 const TOTAL_S = FADE_S + HOLD_S + FADE_OUT_S;
 
-// Keyframe time offsets (0–1)
 const T1 = FADE_S / TOTAL_S;
 const T2 = (FADE_S + HOLD_S) / TOTAL_S;
 
 type IconItem = { id: number; iconIdx: number };
 let _uid = 0;
 
+function shuffle(arr: number[]): number[] {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
 function SingleIconStream({ containerWidth }: { containerWidth: number }) {
   const [items, setItems] = useState<IconItem[]>([]);
-  const iconIdxRef = useRef(0);
+  const queueRef = useRef<number[]>([]);
+
+  const nextIdx = useCallback(() => {
+    if (queueRef.current.length === 0) {
+      queueRef.current = shuffle(allIcons.map((_, i) => i));
+    }
+    return queueRef.current.shift()!;
+  }, []);
 
   const spawn = useCallback(() => {
-    const iconIdx = iconIdxRef.current % allIcons.length;
-    iconIdxRef.current++;
-    setItems((prev) => [...prev, { id: ++_uid, iconIdx }]);
-  }, []);
+    setItems((prev) => [...prev, { id: ++_uid, iconIdx: nextIdx() }]);
+  }, [nextIdx]);
 
   useEffect(() => {
     spawn();
-    // Spawn the next icon the moment the current one starts its fade-out
     const iv = setInterval(spawn, (FADE_S + HOLD_S) * 1000);
-    return () => clearInterval(iv);
+    return () => {
+      clearInterval(iv);
+      // Reset on cleanup so StrictMode's double-invoke doesn't leave two icons
+      setItems([]);
+      queueRef.current = [];
+    };
   }, [spawn]);
 
   const remove = useCallback((id: number) => {
@@ -72,8 +90,7 @@ function SingleIconStream({ containerWidth }: { containerWidth: number }) {
             top: "50%",
             left: 0,
             width: ICON_SIZE,
-            height: ICON_SIZE,
-            marginTop: -ICON_SIZE / 2,
+            marginTop: -CARD_HEIGHT / 2,
           }}
           animate={{
             x: [xIn, xCenter, xCenter, xOut],
@@ -87,13 +104,19 @@ function SingleIconStream({ containerWidth }: { containerWidth: number }) {
           }}
           onAnimationComplete={() => remove(id)}
         >
-          <Image
-            src={allIcons[iconIdx].src}
-            alt={allIcons[iconIdx].alt}
-            width={ICON_SIZE}
-            height={ICON_SIZE}
-            className="h-full w-full rounded-[22%] object-cover shadow-[0_16px_48px_rgba(0,0,0,0.18)]"
-          />
+          <div style={{ width: ICON_SIZE, height: ICON_SIZE }}>
+            <Image
+              src={allIcons[iconIdx].src}
+              alt={allIcons[iconIdx].alt}
+              width={ICON_SIZE}
+              height={ICON_SIZE}
+              className="h-full w-full rounded-[22%] object-cover shadow-[0_16px_48px_rgba(0,0,0,0.18)]"
+            />
+          </div>
+          <div className="mt-3 text-center">
+            <p className="text-sm font-semibold text-ink leading-tight">{allIcons[iconIdx].alt}</p>
+            <p className="mt-1 text-xs text-ink/60 leading-snug">{allIcons[iconIdx].description}</p>
+          </div>
         </motion.div>
       ))}
     </>
