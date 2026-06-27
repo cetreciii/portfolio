@@ -13,7 +13,7 @@ const allIcons = [
   { src: "/projects/gennit/AppIcon.png", alt: "Gennit", description: "Food party planner that handles everyone's allergies safely" },
   { src: "/projects/detective-dino/AppIconComposer.png", alt: "Detective Dino", description: "Mystery game powered by Apple's on-device AI" },
   { src: "/projects/airchestra/app_Icon_Airchestra.png", alt: "AirChestra", description: "Immersive visionOS experience with floating musical planets to conduct" },
-  { src: "/projects/neglect-rehab/NegelectRehab_App_Icon.png", alt: "NeglectRehab", description: "visionOS rehabilitation experience for spatial neglect patients" },
+  { src: "/projects/neglect-rehab/NegelectRehab_App_Icon.png", alt: "NeglectRehab", description: "Proposal for XR rehabilitation framework for spatial neglect patients" },
   { src: "/projects/duidu/Duidu_App_Icon.png", alt: "Duidu", description: "Accessible drawing canvas that maps strokes to sound" },
   { src: "/projects/brainline/BrainLine_App_Icon.png", alt: "BrainLine", description: "Explore the brain through a train journey metaphor" },
   { src: "/projects/nowhat/Nowhat_App_Icon_Light.png", alt: "Nowhat?", description: "Sketch, prioritise, and organise your ideas on the go" },
