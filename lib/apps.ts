@@ -6,6 +6,8 @@ export type App = {
 };
 
 export const apps: App[] = [
+  { name: "Whoooshh", subtitle: "Collaborative and immersive drawing canvas", platform: "visionOS", appStoreUrl: "https://apps.apple.com/it/app/whoooshh-draw-with-friends/id6774649423" },
+  { name: "ATRIA", subtitle: "Spatial workspace for medical pre-operative meetings", platform: "visionOS", appStoreUrl: "https://apps.apple.com/it/app/atria-heart-team-meetings/id6766910179" },
   { name: "Roundeo", subtitle: "Rounded corners and frames for videos", platform: "macOS", appStoreUrl: "https://apps.apple.com/it/app/roundeo-round-corners-videos/id6761580158?mt=12" },
   { name: "Liquid", subtitle: "Money transactions for people with dyscalculia", platform: "iOS", appStoreUrl: "https://apps.apple.com/it/app/liquid-spending-made-simple/id6759966864" },
   { name: "Gennit", subtitle: "Food parties accounting for allergies", platform: "iOS", appStoreUrl: "https://apps.apple.com/it/app/gennit-food-allergy-parties/id6760315666" },
