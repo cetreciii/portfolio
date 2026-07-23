@@ -41,9 +41,32 @@ function parseImageSrc(line: string): string | null {
   return match ? match[1] : null;
 }
 
+function parseVideoId(line: string): string | null {
+  const match = line.match(/^\[video\]\(([^)]+)\)$/);
+  return match ? match[1] : null;
+}
+
 function renderMd(text: string, cls = "text-[17px] leading-[1.7] text-[rgba(0,0,0,0.82)]"): ReactNode[] {
   return text.split("\n\n").filter(Boolean).map((block, bi) => {
     const lines = block.split("\n").filter(Boolean);
+
+    // video block
+    if (lines.length === 1) {
+      const videoId = parseVideoId(lines[0]);
+      if (videoId) {
+        return (
+          <div key={bi} className="mt-8 aspect-video overflow-hidden rounded-[12px] border border-[rgba(0,0,0,0.08)] bg-canvas-warm shadow-card">
+            <iframe
+              src={`https://www.youtube.com/embed/${videoId}`}
+              title="Project video"
+              className="h-full w-full"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowFullScreen
+            />
+          </div>
+        );
+      }
+    }
 
     // image block
     const imgSrcs = lines.map(parseImageSrc);

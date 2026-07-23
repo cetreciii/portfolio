@@ -20,6 +20,63 @@ export type Project = {
 
 export const projects: Project[] = [
   {
+    slug: "atria",
+    title: "ATRIA",
+    tagline: "A spatial, multi-participant visionOS meeting tool for medical Heart Team pre-surgery strategy assessment.",
+    description: `ATRIA is a spatial, multi-participant visionOS app I've been building with my Team (the ATRIA Team: Samuel Scalise, Michele Coppola, Julien Choromanski, Natalia Chicherova, Sebastian Jaiovi) during the ARTE Program at the Apple Developer Academy to help medical Heart Teams review a patient's imaging and clinical documents together, before deciding on the best strategy for a surgery.
+
+[video](x9-O_4AEsTE)
+
+A Heart Team meeting today usually means that several specialists such as cardiologists, surgeons, radiologists gather in a remote or in-presence meeting with limited sequential collaboration options while looking through a CT scan or clinical folder. ATRIA turns that meeting into a shared spatial session: everyone wearing an Apple Vision Pro can browse and interact spatially with DICOM slices, PDFs, and CT/Echo/Coronary Angiography exams at the same time with other medical personnel, perfectly synced through SharePlay.
+
+![](/projects/atria/collaboration.png)
+![](/projects/atria/3d-annotation-1.png)
+
+On top of viewing files together, participants can draw directly in 3D space around a patient's scan, or annotate a single 2D slice with any spatial stylus and every stroke is synced live to everyone in the meeting, to enhance real-time collaboration.
+
+![](/projects/atria/2d-annotation.png)
+![](/projects/atria/3d-annotation-2.png)
+
+Before the meeting even starts, a companion macOS app lets doctors organize patient's files (medical history, vitals, blood tests, CT and so on) into a single \`.atria\` package that can be delivered to all the participants in order to have all the necessary files in a single place. This helps avoid scattered files.
+
+**Everything stays local.** No imaging data or file contents are ever sent over the SharePlay connection, only lightweight sync messages (slice index, drawing points, annotation strokes). Each participant downloads and decodes their own copy of the patient's files.
+
+ATRIA is a research prototype and is **not approved for medical use** — it doesn't provide medical advice, diagnosis, or clinical assistance of any kind.`,
+    year: "2026",
+    role: "Spatial Computing, SCRUM Master",
+    stack: ["visionOS", "SwiftUI", "RealityKit", "GroupActivities", "SwiftData", "PDFKit", "macOS"],
+    gradient: "linear-gradient(135deg, #e6f0ff 0%, #d0e0ff 55%, #ffd2da 100%)",
+    emoji: "🫀",
+    keywords: ["Collaboration with heart team", "Multi-platform development", "Agile - SCRUM master"],
+    icon: "/projects/atria/icon.png",
+    coverImage: "/projects/atria/banner.png",
+    descriptionImages: ["/projects/atria/01-home.png", "/projects/atria/14-full-session.png"],
+    link: { label: "View on GitHub", href: "https://github.com/ATRIA-Team/ATRIA-Heart-Team-Meetings" },
+    secondaryLink: { label: "ATRIA-Team", href: "https://atria-team.github.io/" },
+    sections: [
+      {
+        body: `This experience has been very challenging, under multiple aspects and I made sure to learn from the challenges arose.
+
+        First of all, since the ARTE Program is research-oriented, with my team we had to put ourselves in the shoes of the doctors uderstanding their ways of working, routines, what they actually need. The collaboration with them served the purpose of delivering a project that could be valuable for them and that effectively tackled their workflow's specific weak points. So we conducted several months of research, by attending surgical operations, meeting and talking with them to explore how spatial computing could improve their flow.\n
+
+        Then the actual development started. The things that I will take with me in my developer professional life is the ability to use tools such as Git to collaborate in a team of developers; I sharpened my capabilities of using the terminal to dispatch Git's version control, create and work on different feature branches and, most importantly, I practiced how to set up some protection rules in a repository. Even more, since that is an open-source project under MIT license, I learned how to set up with GitHub Actions a CI/CD pipeline that protects the repository from broken code written in pull requests. In this project everyone is welcome to contribute, so the PRs have been protected with a solid template that has to be strictly mantained. And, finally, I have learned how to implement unit testing in the code to protect the project from broken features.
+
+        And then, one of the most significative learnings that I took from the experience, is the collaboration with a team. We were not perfect: there have been conflicts, different opinions and different working efforts caused by divergent interpretations of the learning experience of the ARTE program, but when I asked my team to be the SCRUM master, I put into practice a strategy to try and obtain the best outcome from everyone of us, accounting for every mind and personality. I don't know if I succedeed into this or not, but I can say that as of now the state of the project is something that I'm proud of, and I'm super happy of how we managed to deliver such a complex project in the small amount of time that we've had during the program.`,
+        category: "learn",
+        images: ["/projects/atria/02-dicom-viewer.png"],
+      },
+      {
+        heading: "Stayed disciplined and commitment.",
+        body: `I'm not going to lie, sometimes things got really hard to bring on. There were issues in the development, delays of the communications with the stakeholders (since they are professionals and could give just brief moments of availability). All those things in some occasions brought the morale of the team down.\n
+        
+        My attitude has been trying to be the reference point of the team when things got heavy because of distraction, low motivation and communication delays. I tried to be as disciplined as possible and deliver results day after day, even little contributions that in the moment appeared to be small, but would have been valuable in the long run.\n
+        
+        I'm happy, as stated before, of how things turned up. It's a nice project and I like its shape and will be forever grateful for the experience we lived for 9 months with the ATRIA team!`,
+        category: "attitude",
+      },
+    ],
+  },
+  {
     slug: "whoooshh",
     title: "Whoooshh",
     tagline: "A collaborative spatial drawing app for visionOS with immersive mode and SharePlay.",
