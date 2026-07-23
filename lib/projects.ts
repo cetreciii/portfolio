@@ -22,7 +22,7 @@ export const projects: Project[] = [
   {
     slug: "atria",
     title: "ATRIA",
-    tagline: "A spatial, multi-participant visionOS meeting tool for medical Heart Team pre-surgery strategy assessment.",
+    tagline: "A collaborative visionOS meeting tool for medical pre-surgery strategy assessment.",
     description: `ATRIA is a spatial, multi-participant visionOS app I've been building with my Team (the ATRIA Team: Samuel Scalise, Michele Coppola, Julien Choromanski, Natalia Chicherova, Sebastian Jaiovi) during the ARTE Program at the Apple Developer Academy to help medical Heart Teams review a patient's imaging and clinical documents together, before deciding on the best strategy for a surgery.
 
 [video](x9-O_4AEsTE)
@@ -41,11 +41,11 @@ Before the meeting even starts, a companion macOS app lets doctors organize pati
 
 **Everything stays local.** No imaging data or file contents are ever sent over the SharePlay connection, only lightweight sync messages (slice index, drawing points, annotation strokes). Each participant downloads and decodes their own copy of the patient's files.
 
-ATRIA is a research prototype and is **not approved for medical use** — it doesn't provide medical advice, diagnosis, or clinical assistance of any kind.`,
+ATRIA is a research prototype and is **not approved for medical use**. It doesn't provide medical advice, diagnosis, or clinical assistance of any kind.`,
     year: "2026",
     role: "Spatial Computing, SCRUM Master",
     stack: ["visionOS", "SwiftUI", "RealityKit", "GroupActivities", "SwiftData", "PDFKit", "macOS"],
-    gradient: "linear-gradient(135deg, #e6f0ff 0%, #d0e0ff 55%, #ffd2da 100%)",
+    gradient: "linear-gradient(135deg, #ffffff 0%, #f3f4f6 55%, #e2e5ea 100%)",
     emoji: "🫀",
     keywords: ["Collaboration with heart team", "Multi-platform development", "Agile - SCRUM master"],
     icon: "/projects/atria/icon.png",
@@ -79,7 +79,7 @@ ATRIA is a research prototype and is **not approved for medical use** — it doe
   {
     slug: "whoooshh",
     title: "Whoooshh",
-    tagline: "A collaborative spatial drawing app for visionOS with immersive mode and SharePlay.",
+    tagline: "A collaborative spatial drawing app for visionOS with immersive drawing.",
     description: `Whoooshh is a simple drawing app for visionOS. That is my personal take on the market of drawing apps for Apple Vision Pro, but with a twist!
 
 It is possible for multiple people to draw all together! It can happen locally, with the person being physically present in the room with you, or it could happen in a FaceTime call, with personas! All thanks to Share Play!
@@ -185,7 +185,7 @@ This is my small contribution for builders, makers and small developers that wan
   {
     slug: "liquid",
     title: "Liquid",
-    tagline: "Helping people with dyscalculia pay confidently in cash - Swift Student Challenge 2026.",
+    tagline: "Helping people with dyscalculia pay confidently in cash.",
     description: `Liquid is my submission for the Swift Student Challenge 2026! …but also this time, sadly, I was not selected as a winner!
 
 It is an app designed to help people with dyscalculia when paying in cash, both when handing over the correct amount of money and when receiving change.
@@ -248,7 +248,7 @@ Since the experience was designed to help people, I paid close attention to ever
   {
     slug: "gennit",
     title: "Gennit",
-    tagline: "A food allergy party planner that makes hosting safe and inclusive.",
+    tagline: "A food allergy party planner that makes food gatherings safe and inclusive.",
     description:
       "Gennit is an app designed to make organizing food parties easier by taking everyone's food allergies and intolerances into account. Hosts can create an event and share it with their guests, who can then add their allergy information. The app gathers all this data, helping the host plan and prepare dishes that safely avoid any ingredients that guests can't eat.",
     year: "2026",
@@ -396,11 +396,11 @@ The experience has to account for more caution about the cognitive load of the u
   {
     slug: "neglect-rehab",
     title: "NeglectRehab",
-    tagline: "A visionOS rehabilitation experience for spatial neglect, my ARTE Program submission.",
+    tagline: "A spatial rehabilitation experience for spatial neglect, my ARTE Program submission.",
     description: "My ARTE Program 2025-2026 submission project!\n\nMore information on the project can be found clicking on the button below!",
     year: "2025",
     role: "Spatial Computing",
-    stack: ["visionOS", "RealityKit", "SwiftUI"],
+    stack: ["RealityKit", "SwiftUI"],
     gradient: "linear-gradient(135deg, #ffe7e1 0%, #ffd6d8 55%, #ffd9ec 100%)",
     emoji: "🧬",
     keywords: ["Spatial Computing", "Academic Research", "Rehab proposal"],
@@ -445,7 +445,7 @@ We were not developers, we were humans understanding how to live.`,
   {
     slug: "brainline",
     title: "BrainLine",
-    tagline: "Exploring the brain through a train journey metaphor - Swift Student Challenge 2025",
+    tagline: "Exploring the brain through a train journey metaphor. Swift Student Challenge 2025.",
     description:
       "My submission for the 2025 Swift Student Challenge! But I did not win! This project was built to spread knowledge across kids and young students who wanted to learn more about the brain and about the consequences of brain lesions while using the metaphor of buying a train ticket: the user can select the departing station (one of the five senses, where the perception begins) and then select the arrival station (where the experience of the world as we understand it in our complex way happens) and discover the path that the neural signal does passing through every critical brain region that is displayed metaphorically as a station. More than that, the user can report some \"hazards on track\" that are lesions to critical brain regions: this report, then, shows the user what happens when that particular brain region is damaged and what happens to the human perception of the world.",
     year: "2025",

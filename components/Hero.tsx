@@ -7,6 +7,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 const ease = [0.16, 1, 0.3, 1] as const;
 
 const allIcons = [
+  { src: "/projects/atria/icon.png", alt: "ATRIA", description: "Spatial collaborative tool for pre-operative meetings of medical Heart Teams" },
   { src: "/projects/whoooshh/App_Icon_visionOS_Glass.png", alt: "Whoooshh", description: "Collaborative spatial drawing for Apple Vision Pro with SharePlay" },
   { src: "/projects/roundeo/app-icon.png", alt: "Roundeo", description: "Rounds video corners for Keynote demos, free and open-source" },
   { src: "/projects/liquid/AppIcon_2_Light_Rounded.png", alt: "Liquid", description: "Helps people with dyscalculia pay confidently in cash" },

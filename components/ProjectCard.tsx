@@ -37,7 +37,11 @@ export function ProjectCard({
                   alt={`${project.title} icon`}
                   width={100}
                   height={100}
-                  className="rounded-[22px] shadow-[0_8px_24px_rgba(0,0,0,0.18)]"
+                  className={
+                    project.stack.includes("visionOS")
+                      ? "rounded-full shadow-[0_8px_24px_rgba(0,0,0,0.18)]"
+                      : "rounded-[22px] shadow-[0_8px_24px_rgba(0,0,0,0.18)]"
+                  }
                 />
               </div>
             ) : (
