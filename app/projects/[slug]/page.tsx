@@ -280,9 +280,9 @@ export default async function ProjectPage({
         {/* Keywords */}
         <div className="mb-12">
           <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.12em] text-ink-soft">Concepts I've been exposed to</p>
-          <div className="grid grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
             {project.keywords.map((kw, i) => (
-              <div key={kw} className="border-t-2 border-accent pt-3">
+              <div key={kw} className="border-b-2 border-accent pb-3 sm:border-b-0 sm:border-t-2 sm:pb-0 sm:pt-3">
                 <p className="mb-1.5 text-[11px] font-semibold uppercase tracking-[0.12em] text-accent">
                   {String(i + 1).padStart(2, "0")}
                 </p>

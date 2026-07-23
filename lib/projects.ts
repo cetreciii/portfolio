@@ -52,7 +52,7 @@ ATRIA is a research prototype and is **not approved for medical use**. It doesn'
     coverImage: "/projects/atria/banner.png",
     descriptionImages: ["/projects/atria/01-home.png", "/projects/atria/14-full-session.png"],
     link: { label: "View on GitHub", href: "https://github.com/ATRIA-Team/ATRIA-Heart-Team-Meetings" },
-    secondaryLink: { label: "ATRIA-Team", href: "https://atria-team.github.io/" },
+    secondaryLink: { label: "ATRIA Website", href: "https://atria-team.github.io/" },
     sections: [
       {
         body: `This experience has been very challenging, under multiple aspects and I made sure to learn from the challenges arose.
