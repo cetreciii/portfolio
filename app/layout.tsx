@@ -33,6 +33,9 @@ export const metadata: Metadata = {
     description: "Learn. Improve. Empower.",
     images: ["https://cetreciii.github.io/portfolio/og-image.png"],
   },
+  verification: {
+    google: "TfAlAPPBa-gRdwzswh94i51YBkyAO7UF2W0g1tGWKnM",
+  },
 };
 
 export const viewport = {
